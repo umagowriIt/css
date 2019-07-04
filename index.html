@@ -1,0 +1,217 @@
+<!Doctype html>
+<html ng-app='htmlGenerator'>
+
+<head>
+  <title>test</title>
+  <link rel="stylesheet" type="text/css" href="styles/colpick.css">
+  <link rel="stylesheet" type="text/css" href="styles/ui.css">
+  <link rel="stylesheet" type="text/css" href="styles/custom.css">
+
+  <script src='js/jquery-2.1.4.min.js'> </script>
+  <script src='js/jquery-ui.min.js'> </script>
+  <script src='js/plugins.js'> </script>
+  <script src='js/colpick.js'> </script>
+  <script src='js/jszip.js'> </script>
+
+  <script src='js/enums/types.js'> </script>
+  <script src='js/tools/enums.js'> </script>
+  <script src='js/tools/utilities.js'> </script>
+  <script src='js/tools/metadata.js'> </script>
+  <script src='js/tools/ops.js'> </script>
+  <script src='js/tools/sheets.js'> </script>
+  <script src='js/tools/styles.js'> </script>
+  <script src='js/tools/toolbar.js'> </script>
+  <script src='js/tools/elements.js'> </script>
+
+
+  <script src='js/tools/ui.js'> </script>
+
+  <script src='js/main.js'> </script>
+
+  <script>
+
+    $(document).ready(function () {
+      $("#toolbar").draggable({
+      });
+
+      $("#extras").draggable({
+        containment: "document"
+      });
+
+    });
+
+  </script>
+
+</head>
+
+
+<body onClick="HtmlGenerator.setEvents(event)">
+
+  <div id="toolbar">
+    <div id="elementbox" class="addElement tooltab">
+      <ul class="newItems">
+        <li onClick="HtmlGenerator.addElm('block')">Block</li>
+        <li onClick="HtmlGenerator.addElm('text')">Text</li>
+      </ul>
+    </div>
+
+
+    <div id="editBox" class="tooltab">
+      <button class="primary addElm">Add Elm</button>
+      <button class="primary tab" tab="rules-tab">Rules</button>
+
+
+
+      <!-- <fieldset>
+                <input type="checkbox" onClick="HtmlGenerator.showMetadata()" /><label>Show title</label> 
+              </fieldset> -->
+
+      <div id="rules-tab" class="tabBody rulesTab">
+        <button class="secondary" ng-click="changeParent()">change <br />parent</button>
+
+      </div>
+      <div class="clearfix"></div>
+      <div>
+        <div class="tabHeader">
+          <span class="tab" tab="dimension">DM</span>
+          <span class="tab" tab="design">DS</span>
+          <span class="tab" tab="font">FNT</span>
+        </div>
+
+        <div class="tabBody" id="dimension">
+          <fieldset class="ptBox">
+            <label>Width</label>
+
+            <div class="contentBox">
+              <input class="styleSetter" type="range" step="1" min="1" max="100" id="widthVal" style-name="width"
+                onChange="HtmlGenerator.updateStyle('width',this.value)" />
+              <select class="eazyCssUnit" data-type="width" value="%" data-target="widthVal" id="widthVal_unit">
+                <option value="px">px</option>
+                <option value="%" selected>%</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset class="ptBox">
+            <label>Height</label>
+            <div class="contentBox">
+              <input class="styleSetter" type="range" step="1" min="1" max="100" id="heightVal" style-name="height"
+                onChange="HtmlGenerator.updateStyle('height',this.value)" />
+
+              <select class="eazyCssUnit" data-type="height" value="px" data-target="heightVal" id="heightVal_unit">
+                <option value="px" selected>px</option>
+                <option value="%">%</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset class="ptBox">
+            <label>Padding</label>
+            <div class="contentBox">
+              <select class="eazyCssUnit" style="display: none;" data-type="padding" value="px" data-target="paddingVal"
+                id="paddingVal_unit">
+                <option value="px" selected>px</option>
+                <option value="%">%</option>
+              </select>
+              <input class="styleSetter topSide" type="range" step="1" min="1" max="500" id="padding-topVal" style-name="padding-top"
+                onChange="HtmlGenerator.updateStyle('padding-top',this.value)" />
+
+              <input class="styleSetter leftSide" type="range" step="1" min="1" max="500" id="padding-leftVal"
+                style-name="padding-left" onChange="HtmlGenerator.updateStyle('padding-left',this.value)" />
+
+              <input class="styleSetter rightSide" type="range" step="1" min="1" max="500" id="padding-rightVal"
+                style-name="padding-right" onChange="HtmlGenerator.updateStyle('padding-right',this.value)" />
+
+              <input class="styleSetter topSide" type="range" step="1" min="1" max="500" id="padding-bottomVal"
+                style-name="padding-bottom" onChange="HtmlGenerator.updateStyle('padding-bottom',this.value)" />
+
+          </fieldset>
+
+          <fieldset class="ptBox">
+            <label>Margin</label>
+            <div class="contentBox">
+              <select class="eazyCssUnit" style="display: none;" data-type="margin" value="px" data-target="marginVal"
+                id="marginVal_unit">
+                <option value="px" selected>px</option>
+                <option value="%">%</option>
+              </select>
+              <input class="styleSetter topSide" type="range" step="1" min="1" max="500" id="margin-topVal" style-name="margin-top"
+                onChange="HtmlGenerator.updateStyle('margin-top',this.value)" />
+
+              <input class="styleSetter leftSide" type="range" step="1" min="1" max="500" id="margin-leftVal"
+                style-name="margin-left" onChange="HtmlGenerator.updateStyle('margin-left',this.value)" />
+
+              <input class="styleSetter rightSide" type="range" step="1" min="1" max="500" id="margin-rightVal"
+                style-name="margin-right" onChange="HtmlGenerator.updateStyle('margin-right',this.value)" />
+
+              <input class="styleSetter topSide" type="range" step="1" min="1" max="500" id="margin-bottomVal"
+                style-name="margin-bottom" onChange="HtmlGenerator.updateStyle('margin-bottom',this.value)" />
+
+          </fieldset>
+
+
+        </div>
+
+        <div class="tabBody" id="design">
+          <fieldset class="ptBox">
+            <label>Bg color</label>
+
+            <div class="contentBox">
+              <span class="colorpicker" id="bgColor"></span>
+            </div>
+          </fieldset>
+
+          <fieldset class="ptBox">
+            <label>Bg Image</label>
+
+            <div class="contentBox">
+              <input type="file" class="bgImg"/>
+              <ul class="bgImgList">
+                <li id = "bgImage"></li>
+              </ul>
+              <p>Repeat</p>
+             
+              <ul class="selectBox ptElement" id="bgRepeat" data-property='background-repeat'>
+                <li ><label><input name="repeat" value='no-repeat'   type="radio" />default</label></li>
+                <li><label><input  name="repeat" value='repeat'  type="radio" />tile</label></li>
+                <li ><label><input name="repeat" value='repeat-x'  type="radio" />Tile Horizontally</label></li>
+                <li><label><input name="repeat" value='repeat-y' type="radio" />Tile Vertically</label></li>
+              </ul>
+
+              <ul class="selectBox ptElement" id="bgSize" data-property='background-size'>
+                <li ><label><input name="size" value='auto'   type="radio" />none</label></li>
+                <li><label><input name="size" value='cover'  type="radio" />Stretch</label></li>
+                <li ><label><input name="size" value='contain'  type="radio" />Fit in Box</label></li>
+                <li><label><input name="size" value='custom' type="radio" />Custom</label></li>
+              </ul>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="tabBody" id="font">
+          in font
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <span class="modeBtn deskmode active" data-mode="0">desktop</span>
+  <span class="modeBtn tabmode " data-mode="2">Tab</span>
+  <span class="modeBtn mobmode" data-mode="3">Mob</span>
+  <span style="top: 540px" class="modeBtn mobmode" data-mode="1">TTT</span>
+
+  <span class="ezyCssSelector">
+    <!-- <span class='top points' type="top"></span>
+    <span class='bottom points' type="bottom" ></span>
+    <span class='left points' type="left"></span>
+    <span class='right points' type="right"></span> -->
+  </span>
+
+  <section id="body"></section>
+
+
+</body>
+
+</html>
